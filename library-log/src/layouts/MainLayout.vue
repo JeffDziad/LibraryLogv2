@@ -1,0 +1,44 @@
+<template>
+  <q-layout view="lHh Lpr lff">
+    <q-header class="bg-dark flex justify-between">
+      <q-toolbar class="text-white bg-dark q-py-sm">
+        <q-toolbar-title class="text-h4">
+          <router-link to="/" class="header-link">
+            <TypingText class="text-h4" text="Library Log"/>
+          </router-link>
+
+        </q-toolbar-title>
+        <AccountMenu :user="authUser.user"/>
+      </q-toolbar>
+    </q-header>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+
+    <q-footer class="bg-dark">
+      Library Log ©{{year}}
+    </q-footer>
+  </q-layout>
+</template>
+
+<script setup>
+import TypingText from "components/Basics/TypingText.vue";
+import AccountMenu from "components/AccountMenu.vue";
+import { useAuthUser } from "src/store/authUser";
+import {computed} from "vue";
+
+const authUser = useAuthUser();
+
+const year = computed(() => {
+  return new Date().getFullYear();
+});
+</script>
+
+<style scoped>
+.header-link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+</style>
