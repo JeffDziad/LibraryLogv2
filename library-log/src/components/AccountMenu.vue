@@ -49,7 +49,7 @@ const avatarImg = computed(() => {
         <div class="row">
           <div class="col-auto">
             <LoginForm/>
-            <GoogleAuth class="q-pa-sm"/>
+            <GoogleAuth class="q-px-sm q-pb-sm"/>
           </div>
         </div>
         <span>Don't have an account? <router-link to="/register">Sign Up!</router-link></span>
