@@ -12,7 +12,7 @@ const form = ref(null);
 function login() {
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
-      router.push("dashboard");
+      router.push("/my-libraries");
     })
     .catch((error) => {
       console.error(error.code);

@@ -8,8 +8,12 @@ const routes = [
       { path: '/', component: () => import('pages/IndexPage.vue') },
       { path: '/register', component: () => import('pages/RegisterPage.vue') },
       {
-        path: '/dashboard',
-        component: () => import('pages/DashboardPage.vue'),
+        path: '/my-libraries',
+        component: () => import('pages/MyLibrariesPage.vue'),
+      },
+      {
+        path: 'shared-libraries',
+        component: () => import('pages/SharedLibrariesPage.vue'),
       }
     ]
   },

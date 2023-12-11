@@ -25,3 +25,13 @@ $container-padding: 20px;
     max-width: $breakpoint-sm - $container-padding;
   }
 }
+
+.mobile-hide {
+  display: none;
+}
+
+@media (min-width: $breakpoint-sm-min+250) {
+  .mobile-hide {
+    display: block;
+  }
+}

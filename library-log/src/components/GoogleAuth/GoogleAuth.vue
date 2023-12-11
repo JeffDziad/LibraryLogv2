@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {initializeNewUser} from "components/helpers/UserHelpers";
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 const router = useRouter();
@@ -12,8 +13,7 @@ function login() {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       const user = result.user;
-      console.log("Successful login!");
-      router.push('dashboard');
+      router.push('/my-libraries');
     })
     .catch((error) => {
       const code = error.code;

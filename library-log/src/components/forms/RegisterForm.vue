@@ -2,6 +2,7 @@
 import {ref} from "vue";
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'vue-router';
+import { initializeNewUser } from "components/helpers/UserHelpers";
 
 const auth = getAuth();
 const router = useRouter();
@@ -12,8 +13,9 @@ const password = ref("");
 function signup() {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
-      //? Logged In
-      router.push('dashboard');
+      //? New User Created - logging in
+      initializeNewUser(userCredential.user);
+      router.push('/my-libraries');
     })
     .catch((error) => {
       //! Print error

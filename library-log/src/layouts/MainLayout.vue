@@ -3,17 +3,17 @@
     <q-header class="bg-dark flex justify-between">
       <q-toolbar class="text-white bg-dark q-py-sm">
         <q-toolbar-title class="text-h4">
-          <router-link to="/" class="header-link">
+          <router-link to="/" class="header-link inline-block">
             <TypingText class="text-h4" text="Library Log"/>
           </router-link>
 
         </q-toolbar-title>
-        <AccountMenu :user="authUser.user"/>
+        <AccountMenu ref="accountMenu" :user="authUser.user"/>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <router-view @openAccountMenu="openAccountMenu"/>
     </q-page-container>
 
     <q-footer class="bg-dark">
@@ -26,9 +26,14 @@
 import TypingText from "components/Basics/TypingText.vue";
 import AccountMenu from "components/AccountMenu.vue";
 import { useAuthUser } from "src/store/authUser";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 
 const authUser = useAuthUser();
+const accountMenu = ref(null);
+
+function openAccountMenu() {
+  accountMenu.value.openMenu();
+}
 
 const year = computed(() => {
   return new Date().getFullYear();

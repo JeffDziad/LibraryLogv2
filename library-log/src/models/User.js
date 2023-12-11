@@ -13,6 +13,7 @@ function User(firebaseUser){
     m.uid = firebaseUser.uid ? firebaseUser.uid : '';
   }
 
+
   return m;
 }
 

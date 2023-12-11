@@ -7,6 +7,18 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  showCursor: {
+    type: Boolean,
+    default: true,
+  },
+  letterUpdateRange: {
+    type: Number,
+    default: 350,
+  },
+  cursorBlinkInterval: {
+    type: Number,
+    default: 750,
+  },
   repeat: {
     type: Boolean,
     default: false,
@@ -48,7 +60,7 @@ function updateLetter() {
       }
     }
     updateLetter.last = performance.now();
-    updateLetter.interval = Math.random() * 350;
+    updateLetter.interval = Math.random() * props.letterUpdateRange;
   }
 }
 updateLetter.last = 0;
@@ -65,7 +77,7 @@ function cursor() {
   }
 }
 cursor.last = 0;
-cursor.interval = 750;
+cursor.interval = props.cursorBlinkInterval;
 
 function clock() {
   if(textElement.value) {
@@ -85,8 +97,7 @@ onMounted(() => {
 <template>
   <div>
     <span ref="textElement" :id="id">
-      &nbsp;
-      <span ref="cursorElement" :id="id + '-cursor'">_</span>
+      <span ref="cursorElement" :id="id + '-cursor'">{{(showCursor)?'_':''}}</span>
     </span>
   </div>
 </template>

@@ -1,16 +1,16 @@
 <script setup>
-import {useAuthUser} from "src/store/authUser";
-
-const user = useAuthUser();
+const props = defineProps({
+  user: {
+    type: Object,
+    required: true,
+  }
+});
 </script>
 
 <template>
-  <div v-if="!user.user" class="absolute-center">
+  <div v-if="!user" class="absolute-center">
     <q-icon style="font-size: 100px;" color="negative" name="error"/>
-    <span class="text-grey-8" style="font-size: 1rem;">Please sign in to view your library...</span>
-  </div>
-  <div v-else class="container flex flex-center">
-    {{user.user}}
+    <span class="text-grey-8" style="font-size: 1rem;">Please sign in to continue...</span>
   </div>
 </template>
 

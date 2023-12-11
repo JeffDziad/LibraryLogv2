@@ -9,9 +9,5 @@ export const useAuthUser = defineStore('authUser', () => {
     user.value = u;
   }
 
-  function logout() {
-
-  }
-
-  return {user, setUser};
+  return {user};
 });
