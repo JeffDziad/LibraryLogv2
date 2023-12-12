@@ -43,7 +43,7 @@ const router = useRouter();
 
 function getStarted() {
   if(authUser.user) {
-    router.push('/my-library');
+    router.push('/my-libraries');
   } else {
     emit('openAccountMenu');
   }

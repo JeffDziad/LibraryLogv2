@@ -39,7 +39,7 @@ function save(item) {
 </script>
 
 <template>
-  <q-btn @click="showModal" class="bg-white text-primary border-primary" icon="add" size="lg" round></q-btn>
+  <q-btn @click="showModal" color="primary" icon="add" size="md" round></q-btn>
 
   <BasicModal ref="modal" :on-hide="onModalClose">
     <template #header>

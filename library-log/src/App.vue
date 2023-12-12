@@ -37,6 +37,15 @@ function removeDuplicatesFromArray(arr) {
   return [...new Set(arr)];
 }
 
+function dupe(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function randInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+
 const auth = getAuth();
 const authUser = useAuthUser();
 const userData = useUserData();
@@ -69,5 +78,7 @@ onAuthStateChanged(auth, (user) => {
 provide('eid', eid);
 provide('camelToReadable', camelToReadable);
 provide('removeDuplicatesFromArray', removeDuplicatesFromArray);
+provide('dupe', dupe);
+provide('randInRange', randInRange);
 </script>
 

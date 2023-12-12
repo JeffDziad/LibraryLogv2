@@ -38,7 +38,7 @@ onMounted(() => {
 <div class="q-pa-md faded-wight-background rounded-borders">
   <div class="row q-mb-md">
     <div class="col-6 flex justify-start">
-      <span class="bg-primary text-white q-pa-sm text-subtitle1 rounded-borders">{{items.length}} Result(s)</span>
+      <span class="bg-primary text-white q-pa-sm text-subtitle2 rounded-borders">{{items.length}} Result(s)</span>
     </div>
     <div class="col-6 flex justify-end">
       <q-btn-toggle :disable="lockViewFormat" v-model="viewFormat" color="white" text-color="black" toggle-color="primary" :options="viewOptions">
