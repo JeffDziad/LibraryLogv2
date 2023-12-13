@@ -4,7 +4,7 @@
       <q-toolbar class="text-white bg-dark q-py-sm">
         <q-toolbar-title class="text-h4">
           <router-link to="/" class="header-link inline-block">
-            <TypingText class="text-h4" text="Library Log"/>
+            <TypingText :show-cursor="!showCursor" class="text-h4" text="Library Log"/>
           </router-link>
 
         </q-toolbar-title>
@@ -26,10 +26,13 @@
 import TypingText from "components/Basics/TypingText.vue";
 import AccountMenu from "components/AccountMenu.vue";
 import { useAuthUser } from "src/store/authUser";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
+import { useUserData } from "src/store/userData";
 
+const userData = useUserData();
 const authUser = useAuthUser();
 const accountMenu = ref(null);
+const showCursor = ref(true);
 
 function openAccountMenu() {
   accountMenu.value.openMenu();
@@ -37,6 +40,10 @@ function openAccountMenu() {
 
 const year = computed(() => {
   return new Date().getFullYear();
+});
+
+watch(() => userData.settings, (n, o) => {
+  showCursor.value = userData.settings.epilepsySafeMode;
 });
 </script>
 

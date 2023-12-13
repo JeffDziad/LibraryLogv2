@@ -10,6 +10,10 @@ const props = defineProps({
   libraryUid: {
     type: String,
     required: true,
+  },
+  owned: {
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -57,11 +61,11 @@ onMounted(() => {
   </div>
   <div class="row" :class="{'flex': viewFormat==='grid', 'justify-around': viewFormat==='grid'}">
     <div :class="{'col-12': viewFormat==='list'}" v-for="(i) in items">
-      <BookCard :library-uid="libraryUid" :view-format="viewFormat" :item="i"></BookCard>
+      <BookCard :library-uid="libraryUid" :view-format="viewFormat" :item="i" :owned="owned"></BookCard>
     </div>
     <div v-if="items.length <= 0">
       <q-icon name="warning" size="xl"></q-icon>
-      <span class="text-h6" style="vertical-align: sub;">Your library is empty...</span>
+      <span class="text-h6" style="vertical-align: sub;">{{(owned)?'Your':'This'}} library is empty...</span>
     </div>
   </div>
 </div>

@@ -12,6 +12,10 @@ const props = defineProps({
   },
   sessionIndex: {
     type: Number,
+  },
+  owned: {
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -96,7 +100,7 @@ const percentFormatted = computed(() => {
   >
     <q-card>
       <q-card-section>
-        {{percentFormatted}}%
+        {{percentFormatted.toFixed(1)}}%
         <q-linear-progress size="md" :value="percentDeci" color="primary"></q-linear-progress>
       </q-card-section>
       <q-card-section>
@@ -104,8 +108,8 @@ const percentFormatted = computed(() => {
           Try harder next time!
         </div>
         <q-timeline color="secondary">
-          <LogEntry v-for="e in session.logEntries" :entry="e" :min="session.pagesRead" :max="session.pagesToRead" @finished="finishedReading"></LogEntry>
-          <q-btn @click="startReading" color="positive" v-if="session.active && !currentEntry">Start Reading</q-btn>
+          <LogEntry v-for="e in session.logEntries" :entry="e" :min="session.pagesRead" :max="session.pagesToRead" @finished="finishedReading" :owned="owned"></LogEntry>
+          <q-btn @click="startReading" color="positive" v-if="(session.active && !currentEntry) && owned">Start Reading</q-btn>
         </q-timeline>
       </q-card-section>
     </q-card>

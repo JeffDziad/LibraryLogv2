@@ -4,7 +4,7 @@ import SearchInput from "components/Basics/SearchInput.vue";
 import AddItemModal from "components/modals/AddItemModal.vue";
 import { db } from "boot/firebase";
 import {doc, updateDoc, deleteDoc, setDoc, addDoc, collection, query, onSnapshot} from "firebase/firestore";
-import {inject, onMounted, ref, watch} from "vue";
+import {computed, inject, onMounted, ref, watch} from "vue";
 import Book from "src/models/Book";
 import BasicPrompt from "components/Basics/BasicPrompt.vue";
 import ShareModal from "components/modals/ShareModal.vue";
@@ -14,12 +14,16 @@ const dupe = inject('dupe');
 const props = defineProps({
   library: {
     default: {},
+  },
+  owned: {
+    type: Boolean,
+    default: true,
   }
 });
 const renamePrompt = ref(null);
 const shareModal = ref(null);
-
 const items = ref([]);
+const searchString = ref('');
 
 // Handle Manipulating books here CRUD ops
 async function deleteLibrary() {
@@ -52,8 +56,12 @@ async function createBook(book) {
   }
 }
 
-async function updateBook() {
+const filtered = computed(() => {
+  return items.value.filter((i) => i.title.toUpperCase().includes(searchString.value.toUpperCase()));
+});
 
+function search(string) {
+  searchString.value = string;
 }
 
 function getItems() {
@@ -80,7 +88,7 @@ onMounted(() => {
 
 <template>
   <div class="row flex items-center">
-    <div class="col-auto q-pa-md">
+    <div v-if="owned" class="col-auto q-pa-md">
       <q-btn round color="primary" icon="more_vert">
         <q-menu anchor="bottom left" self="top left">
           <q-list style="min-width: 100px">
@@ -104,15 +112,15 @@ onMounted(() => {
       </q-btn>
     </div>
     <div class="col">
-      <SearchInput bg-color="primary" text-color="white" focus-out-text-color="primary"/>
+      <SearchInput bg-color="primary" text-color="white" focus-out-text-color="primary" :search-func="search"/>
     </div>
-    <div class="col-auto q-pa-md">
+    <div v-if="owned" class="col-auto q-pa-md">
       <AddItemModal :save-item="createBook"/>
     </div>
   </div>
-  <LibraryList :library-uid="library.docId" :items="items"/>
-  <BasicPrompt ref="renamePrompt" :submit-func="renameLibrary" submit-btn-title="Rename" title="Rename Library" input-label="Library Name"></BasicPrompt>
-  <ShareModal ref="shareModal" :library-uid="library.docId"/>
+  <LibraryList :library-uid="library.docId" :items="filtered" :owned="owned"/>
+  <BasicPrompt v-if="owned" ref="renamePrompt" :submit-func="renameLibrary" submit-btn-title="Rename" title="Rename Library" input-label="Library Name"></BasicPrompt>
+  <ShareModal v-if="owned" ref="shareModal" :library-uid="library.docId" :shared-with="library.sharedWith"/>
 </template>
 
 <style scoped>

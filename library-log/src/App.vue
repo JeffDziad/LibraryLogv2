@@ -8,7 +8,7 @@ import User from "./models/User";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useAuthUser } from "src/store/authUser";
 import { useUserData } from "src/store/userData";
-import { where, query, collection, doc, onSnapshot } from "firebase/firestore";
+import { where, query, collection, doc, onSnapshot, collectionGroup } from "firebase/firestore";
 import { db } from "boot/firebase";
 import {provide} from "vue";
 import Library from "src/models/Library";
@@ -93,13 +93,26 @@ onAuthStateChanged(auth, (user) => {
 
 
     //? SHARED LIBRARIES LISTENER
-
-
+    let q = query(collection(db, "libraries"), where('sharedWith', 'array-contains', user.email));
+    let sharedLibs = onSnapshot(q, (snapshot) => {
+      let libs = [];
+      snapshot.forEach((doc) => {
+        libs.push(Library(doc.data(), doc.id));
+      });
+      userData.sharedLibraries = libs;
+    });
     userData.sharedLibraries = [];
+
+    //? USER SETTINGS
+    const usersRef = collection(db, "users");
+    const u = onSnapshot(doc(db, "users", user.uid), (doc) => {
+      userData.settings = doc.data();
+    });
   } else {
     authUser.user = null;
     userData.myLibraries = [];
     userData.sharedLibraries = [];
+    userData.settings = {};
   }
 });
 

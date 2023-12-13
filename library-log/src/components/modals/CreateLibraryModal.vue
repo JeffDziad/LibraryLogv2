@@ -30,6 +30,7 @@ async function validated() {
     await addDoc(collection(db, "libraries"), newLibrary.value);
     showNotif('green', 'white', "Created Library", 'check');
   } catch (e) {
+    console.error(e);
     showNotif('red', 'white', "Library Creation Failed", 'error');
   }
   newLibrary.value = Library();

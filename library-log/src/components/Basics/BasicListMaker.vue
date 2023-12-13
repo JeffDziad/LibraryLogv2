@@ -47,7 +47,6 @@ function addListItem() {
 <template>
   <q-expansion-item class="bg-primary" dark :icon="icon" :label="title" :caption="caption" expand-separator>
     <q-card>
-
       <q-card-section class="q-pa-none">
         <q-list bordered separator id="ListArea">
           <q-item v-if="list.length <= 0">

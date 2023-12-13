@@ -31,8 +31,10 @@ const props = defineProps({
 const queryString = ref('');
 const loading = ref(false);
 const focusColor = ref('primary');
+const inputRef = ref(null);
 
 async function search() {
+  inputRef.value.blur();
   loading.value = true;
   await props.searchFunc(queryString.value);
   loading.value = false;
@@ -54,7 +56,7 @@ function focusOut() {
 
 <template>
   <form>
-    <q-input :disable="disabled" :standout="standoutStyle" color="black" v-model="queryString" :label="label" @focusout="focusOut" @focusin="focusIn">
+    <q-input ref="inputRef" :disable="disabled" :standout="standoutStyle" color="black" v-model="queryString" :label="label" @focusout="focusOut" @focusin="focusIn">
       <template #append>
         <q-btn @click="search" type="submit" :loading="loading" flat round :color="focusColor" icon="search">
           <template #loading>

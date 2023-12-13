@@ -42,7 +42,6 @@ watch(selectedLibrary, () => {
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title class="">
             <span class="text-h5">My Libraries</span>
-
             <span v-if="currentLibrary" class="text-primary text-bold text-h5"><span class="text-h5 text-black"> > </span>{{currentLibrary.name}}</span>
           </q-toolbar-title>
 

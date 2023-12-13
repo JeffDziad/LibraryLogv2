@@ -20,6 +20,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  owned: {
+    type: Boolean,
+    default: true,
+  }
 });
 
 async function updateFirestore() {
@@ -64,39 +68,25 @@ function sessionToggle() {
 </script>
 
 <template>
-  <div class="row q-mb-md">
-    <div class="col-6 q-pa-md" style="border-right: solid black 2px;">
+  <div v-if="book.pageCount && book.pageCount > 1">
+    <div class="row q-mb-md">
+      <div class="col">
 
-      <div class="row">
-        <div class="col">
-          <q-circular-progress
-            :value="25"
-            size="lg"
-            :thickness="0.2"
-            color="accent"
-            center-color="grey-8"
-            track-color="transparent"
-            class="q-ma-md"
-          />
-        </div>
       </div>
-
     </div>
-    <div class="col-6 q-pa-md">
-      Overall Stats and Achievements
+    <div class="col-12 q-mb-md q-pb-md flex justify-between" style="border-bottom: solid black 2px;">
+      <span class="text-h4">Sessions</span>
+      <q-btn v-if="owned" @click="sessionToggle" :color="(activeSession)?'negative':'positive'">{{(activeSession)?'End Session':'Start Session'}}</q-btn>
+    </div>
+    <div class="row">
+      <div class="col">
+        <ReadingSession v-for="(s, index) in readingLog.readingSessions.slice().reverse()" :session="s" :session-index="readingLog.readingSessions.length - index"
+                        @update-firestore="updateFirestore" :owned="owned"/>
+      </div>
     </div>
   </div>
-  <div class="col-12 q-mb-md q-pb-md flex justify-between" style="border-bottom: solid black 2px;">
-    <span class="text-h4">Sessions</span>
-    <q-btn @click="sessionToggle" :color="(activeSession)?'negative':'positive'">{{(activeSession)?'End Session':'Start Session'}}</q-btn>
-  </div>
-  <div class="row">
-
-    <div class="col">
-      <ReadingSession v-for="(s, index) in readingLog.readingSessions.slice().reverse()" :session="s" :session-index="readingLog.readingSessions.length - index"
-        @update-firestore="updateFirestore"
-      />
-    </div>
+  <div v-else>
+    <p>This book does not support a reading log, please try another.</p>
   </div>
 
 </template>

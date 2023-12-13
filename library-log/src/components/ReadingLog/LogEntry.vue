@@ -13,6 +13,10 @@ const props = defineProps({
   },
   max: {
     type: Number,
+  },
+  owned: {
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -88,7 +92,7 @@ function dateToSlash(d) {
       Read To Page: {{entry.pagesRead}}
     </div>
     <div v-if="entry.inProgress">
-      <FinishedReadingModal ref="finishedReadingModal" @finished="finishedReading" :min="min" :max="max">
+      <FinishedReadingModal v-if="owned" ref="finishedReadingModal" @finished="finishedReading" :min="min" :max="max">
         <template #button="{showModal}">
           <q-btn @click="showModal" v-if="entry.inProgress" color="positive" class="q-mt-md">Finish Reading</q-btn>
         </template>

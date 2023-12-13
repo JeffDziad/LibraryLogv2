@@ -23,7 +23,10 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-
+  owned: {
+    type: Boolean,
+    default: true,
+  }
 });
 
 const modal = ref(null);
@@ -68,14 +71,14 @@ function showDeleteModal() {
                 <div class="col-12 flex justify-center q-pb-md">
                   <q-img fit="contain" width="250px" :src="book.thumbnail" class="thumbnail"></q-img>
                 </div>
-                <div class="col-6">
+                <div v-if="owned" class="col-6">
                   <BasicEditButton :show-modal="showEditModal">
                     <q-tooltip class="bg-dark text-body2">
                       Edit
                     </q-tooltip>
                   </BasicEditButton>
                 </div>
-                <div class="col-6">
+                <div v-if="owned" class="col-6">
                   <BasicDeleteButton :show-modal="showDeleteModal">
                     <q-tooltip class="bg-negative text-body2">
                       Delete
@@ -114,7 +117,7 @@ function showDeleteModal() {
           </div>
         </template>
         <template #Log-content>
-          <ReadingLogView :library-uid="libraryUid" :reading-log="book.readingLog" :book="book"/>
+          <ReadingLogView :library-uid="libraryUid" :reading-log="book.readingLog" :book="book" :owned="owned"/>
         </template>
       </BasicTabsWithContent>
     </div>

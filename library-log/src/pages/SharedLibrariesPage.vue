@@ -50,14 +50,8 @@ watch(selectedLibrary, () => {
 
       <q-drawer v-model="drawer" :width="200" :breakpoint="500" overlay bordered>
         <q-tabs vertical v-model="selectedLibrary">
+          <q-tab v-if="userData.sharedLibraries.length <= 0" disable>No shared libraries...</q-tab>
           <q-tab @click="drawer = false" v-for="l in userData.sharedLibraries" :name="l.docId" :label="l.name"></q-tab>
-          <div class="flex justify-center">
-            <CreateLibraryModal>
-              <template #button="{showModal}">
-                <q-btn @click="showModal" class="q-py-md" color="primary" square flat style="width: 100%; height: 100%;"><q-icon name="add"/><span class="mobile-hide">Create Library</span></q-btn>
-              </template>
-            </CreateLibraryModal>
-          </div>
         </q-tabs>
       </q-drawer>
 
@@ -66,7 +60,7 @@ watch(selectedLibrary, () => {
         <div class="col">
           <q-tab-panels v-model="libraryPanel" style="border-bottom-right-radius: 25px; border-bottom-left-radius: 25px;">
             <q-tab-panel name="library">
-              <LibraryView v-if="currentLibrary" :library="currentLibrary"/>
+              <LibraryView v-if="currentLibrary" :library="currentLibrary" :owned="false"/>
               <div v-else>
                 Please select a library to view...
               </div>

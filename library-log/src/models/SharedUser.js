@@ -1,6 +1,5 @@
 export default function SharedUser(obj=null, id="") {
   let u = {
-    docId: "",
     email: "",
   };
 
