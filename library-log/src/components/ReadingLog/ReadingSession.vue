@@ -81,11 +81,21 @@ function finishedReading(pageCount) {
 }
 
 const percentDeci = computed(() => {
-  return (props.session.pagesRead / props.session.pagesToRead).toFixed(2);
+  return parseFloat((props.session.pagesRead / props.session.pagesToRead).toFixed(2));
 });
 
 const percentFormatted = computed(() => {
-  return percentDeci.value * 100;
+  return (percentDeci.value * 100).toFixed(1);
+});
+
+const totalTime = computed(() => {
+  let total = 0;
+  for(let i = 0; i < props.session.logEntries.length; i++) {
+    let e = props.session.logEntries[i];
+    let diff = (e.endTime - e.startTime)/(1000*60);
+    total += diff;
+  }
+  return total.toFixed(2);
 });
 </script>
 
@@ -100,7 +110,7 @@ const percentFormatted = computed(() => {
   >
     <q-card>
       <q-card-section>
-        {{percentFormatted.toFixed(1)}}%
+        {{percentFormatted}}%
         <q-linear-progress size="md" :value="percentDeci" color="primary"></q-linear-progress>
       </q-card-section>
       <q-card-section>
@@ -111,6 +121,9 @@ const percentFormatted = computed(() => {
           <LogEntry v-for="e in session.logEntries" :entry="e" :min="session.pagesRead" :max="session.pagesToRead" @finished="finishedReading" :owned="owned"></LogEntry>
           <q-btn @click="startReading" color="positive" v-if="(session.active && !currentEntry) && owned">Start Reading</q-btn>
         </q-timeline>
+        <div v-if="!session.active" class="text-subtitle1">
+          Total Time: <span class="text-bold">{{totalTime}} minutes</span>
+        </div>
       </q-card-section>
     </q-card>
   </q-expansion-item>

@@ -10,8 +10,7 @@
     "dev": "quasar dev",
     "build": "quasar build",
 
-    "firebase-login": "firebase login",
-    "deploy": "quasar build && firebase deploy"
+    "deploy": "vercel"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",

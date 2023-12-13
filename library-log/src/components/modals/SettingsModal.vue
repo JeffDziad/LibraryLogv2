@@ -18,8 +18,10 @@ function showModal() {
 
 watch(epilepsySafeMode, async (n, o) => {
   try {
-    await setDoc(doc(db, "users", user.user.uid), {epilepsySafeMode: n});
-    showNotif('green', 'white', 'Updated User Settings', 'check');
+    if(n !== null) {
+      await setDoc(doc(db, "users", user.user.uid), {epilepsySafeMode: n});
+      showNotif('green', 'white', 'Updated User Settings', 'check');
+    }
   } catch (e) {
     console.error(e);
     showNotif('red', 'white', 'Failed to Update User Settings', 'error');
