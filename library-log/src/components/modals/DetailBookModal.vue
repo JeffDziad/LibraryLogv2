@@ -8,11 +8,16 @@ import BasicDeleteButton from "components/Basics/BasicDeleteButton.vue";
 import EditBookModal from "components/modals/EditBookModal.vue";
 import DeleteBookModal from "components/modals/DeleteBookModal.vue";
 import BasicTabsWithContent from "components/Basics/BasicTabsWithContent.vue";
+import ReadingLogView from "components/ReadingLog/ReadingLogView.vue";
 
 const emit = defineEmits(['showEditModal', 'showDeleteModal']);
 const props = defineProps({
   book: {
     type: Object,
+  },
+  libraryUid: {
+    type: String,
+    required: true,
   },
   allCategories: {
     type: Array,
@@ -109,131 +114,7 @@ function showDeleteModal() {
           </div>
         </template>
         <template #Log-content>
-
-          <div class="row q-mb-md">
-            <div class="col-6 q-pa-md" style="border-right: solid black 2px;">
-
-              <div class="row">
-                <div class="col">
-                  <q-circular-progress
-                    :value="25"
-                    size="150px"
-                    :thickness="0.2"
-                    color="accent"
-                    center-color="grey-8"
-                    track-color="transparent"
-                    class="q-ma-md"
-                  />
-                </div>
-              </div>
-
-            </div>
-            <div class="col-6 q-pa-md">
-              Overall Stats and Achievements
-            </div>
-          </div>
-          <div class="col-12 q-mb-md q-pb-md flex justify-between" style="border-bottom: solid black 2px;">
-            <span class="text-h4">Sessions</span>
-            <q-btn color="negative">Stop Session</q-btn>
-          </div>
-          <div class="row">
-
-            <div class="col">
-              <q-expansion-item
-                expand-separator
-                class="bg-accent"
-                icon="schedule"
-                label="Session 2"
-                caption="Fri Sept 21, 2023"
-              >
-                <q-card>
-                  <q-card-section>
-                    <q-timeline color="secondary">
-
-                      <q-timeline-entry
-                        title="9:21PM - 10:21PM (1 hr)"
-                        subtitle="Thur Sept 21, 2023"
-                        icon="check"
-                        color="positive"
-                      >
-                        <div>
-                          Page: 25
-                        </div>
-                      </q-timeline-entry>
-
-                      <q-timeline-entry
-                        title=""
-                        subtitle=""
-                        icon="add"
-                        color="grey"
-                      >
-                        <template #subtitle class="q-pt-none">
-                          <span>
-                            <q-btn>Start</q-btn>
-                          </span>
-                        </template>
-                        <div>
-
-                        </div>
-                      </q-timeline-entry>
-                    </q-timeline>
-                  </q-card-section>
-                </q-card>
-              </q-expansion-item>
-              <q-expansion-item
-                expand-separator
-                class="bg-positive"
-                icon="check"
-                label="Session 1"
-                caption="Thur Sept 21, 2023 - Wed Oct 2, 2023"
-              >
-                <q-card>
-                  <q-card-section>
-                    <q-linear-progress size="lg" :value="100" class="q-mt-md" />
-                    <span>Progress: 100%</span>
-                  </q-card-section>
-                  <q-card-section>
-                    <q-timeline color="secondary">
-
-                      <q-timeline-entry
-                        title="9:21PM - 10:21PM (1 hr)"
-                        subtitle="Thur Sept 21, 2023"
-                        icon="check"
-                        color="positive"
-                      >
-                        <div>
-                          Page: 25
-                        </div>
-                      </q-timeline-entry>
-
-                      <q-timeline-entry
-                        title="3:43PM - 5:43PM (2 hrs)"
-                        subtitle="Wed Oct 2, 2023"
-                        icon="check"
-                        color="positive"
-                      >
-                        <div>
-                          Page: 216
-                        </div>
-                      </q-timeline-entry>
-                      <q-timeline-entry
-                        title="Completed!"
-                        subtitle="Wed Oct 2, 2023"
-                        icon="check"
-                        color="positive"
-                      >
-                        <div>
-
-                        </div>
-                      </q-timeline-entry>
-                    </q-timeline>
-                  </q-card-section>
-                </q-card>
-              </q-expansion-item>
-
-            </div>
-          </div>
-
+          <ReadingLogView :library-uid="libraryUid" :reading-log="book.readingLog" :book="book"/>
         </template>
       </BasicTabsWithContent>
     </div>

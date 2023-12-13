@@ -1,11 +1,12 @@
 <script setup>
-import {ref} from "vue";
+import {inject, ref} from "vue";
 import BasicModal from "components/Basics/BasicModal.vue";
 import Library from "src/models/Library";
 import { db } from "boot/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import {collection, addDoc, updateDoc, doc} from "firebase/firestore";
 import {useAuthUser} from "src/store/authUser";
 
+const showNotif = inject('showNotif');
 const userAuth = useAuthUser();
 const modal = ref(null);
 const form = ref(null);
@@ -25,7 +26,12 @@ function create() {
 
 async function validated() {
   newLibrary.value.ownerUid = userAuth.user.uid;
-  await addDoc(collection(db, "libraries"), newLibrary.value);
+  try {
+    await addDoc(collection(db, "libraries"), newLibrary.value);
+    showNotif('green', 'white', "Created Library", 'check');
+  } catch (e) {
+    showNotif('red', 'white', "Library Creation Failed", 'error');
+  }
   newLibrary.value = Library();
   hideModal();
 }

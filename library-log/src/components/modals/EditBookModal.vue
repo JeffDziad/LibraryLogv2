@@ -4,11 +4,17 @@ import BasicModal from "components/Basics/BasicModal.vue";
 import {inject, ref, watch} from "vue";
 import BasicEditButton from "components/Basics/BasicEditButton.vue";
 const dupe = inject('dupe');
+const showNotif = inject('showNotif');
+import {db} from "boot/firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
 
-const emit = defineEmits(['update']);
 const props = defineProps({
   book: {
     type: Object,
+    required: true,
+  },
+  libraryUid: {
+    type: String,
     required: true,
   },
   allCategories: {
@@ -25,8 +31,14 @@ function showModal() {
   modal.value.show();
 }
 
-function submit() {
-  emit('update', editable.value);
+async function submit() {
+  try {
+    const itemRef = doc(db, "libraries", props.libraryUid, "items", props.book.docId);
+    await setDoc(itemRef, editable.value);
+    showNotif('green', 'white', 'Updated Book', 'check');
+  } catch(e) {
+    showNotif('red', 'white', 'Failed to Update Book', 'error');
+  }
   modal.value.hide();
 }
 

@@ -1,4 +1,11 @@
 // app global css in SCSS form
+
+body {
+  background-image: url("src/assets/book-background.png");
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 $container-padding: 20px;
 
 .container,

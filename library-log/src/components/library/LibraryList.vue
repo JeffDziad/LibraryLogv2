@@ -6,6 +6,10 @@ const emit = defineEmits(['update']);
 const props = defineProps({
   items: {
     type: Array,
+  },
+  libraryUid: {
+    type: String,
+    required: true,
   }
 });
 
@@ -53,7 +57,7 @@ onMounted(() => {
   </div>
   <div class="row" :class="{'flex': viewFormat==='grid', 'justify-around': viewFormat==='grid'}">
     <div :class="{'col-12': viewFormat==='list'}" v-for="(i) in items">
-      <BookCard :view-format="viewFormat" :item="i"></BookCard>
+      <BookCard :library-uid="libraryUid" :view-format="viewFormat" :item="i"></BookCard>
     </div>
     <div v-if="items.length <= 0">
       <q-icon name="warning" size="xl"></q-icon>

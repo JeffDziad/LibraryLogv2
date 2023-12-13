@@ -5,7 +5,7 @@
         <div class="col-xs-12 col-md-6 flex justify-center">
           <img src="https://png.pngtree.com/png-vector/20230318/ourmid/pngtree-book-clipart-vector-png-image_6653535.png" alt="Books Clipart"/>
         </div>
-        <div class="col-xs-12 col-md-6">
+        <div class="bg-white col-xs-12 col-md-6 q-pa-md" style="border-radius: 25px;">
           <div class="row">
             <div class="col-12">
               <TypingText class="text-h4 text-weight-bold" :show-cursor="false" :letter-update-range="50" text="Welcome to Library Log!"/>

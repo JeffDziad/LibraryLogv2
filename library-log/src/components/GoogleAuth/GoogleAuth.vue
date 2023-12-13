@@ -1,7 +1,6 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import {initializeNewUser} from "components/helpers/UserHelpers";
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 const router = useRouter();

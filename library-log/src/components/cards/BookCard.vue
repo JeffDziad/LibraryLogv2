@@ -17,6 +17,10 @@ const props = defineProps({
   item: {
     type: Object,
   },
+  libraryUid: {
+    type: String,
+    required: true,
+  },
   allCategories: {
     type: Array,
     default: [],
@@ -53,7 +57,7 @@ function showDeleteModal() {
 <q-card class="q-mb-md">
   <q-card-section horizontal>
     <div class="thumbnail-wrapper">
-      <DetailBookModal ref="detailModal" :book="item" @show-edit-modal="showEditModal" @show-delete-modal="showDeleteModal">
+      <DetailBookModal ref="detailModal" :book="item" :library-uid="libraryUid" @show-edit-modal="showEditModal" @show-delete-modal="showDeleteModal">
         <template #button="{openModal}">
           <q-img class="col-5 thumbnail" :src="imageUrl" @click="openModal()">
             <q-badge color="info" floating rounded><q-icon size="sm" name="ads_click"/></q-badge>
@@ -71,9 +75,9 @@ function showDeleteModal() {
     </q-card-section>
     <q-space/>
     <q-card-actions v-show="viewFormat==='list'" vertical class="justify-between float-right q-gutter-none">
-      <EditBookModal ref="editModal" :book="item" :all-categories="allCategories" @update="(d) => emit('update', d)"/>
+      <EditBookModal ref="editModal" :book="item" :library-uid="libraryUid" :all-categories="allCategories"/>
       <q-space/>
-      <DeleteBookModal ref="deleteModal" :title="item.title" @confirmed="emit('delete')"/>
+      <DeleteBookModal ref="deleteModal" :title="item.title" :book-uid="item.docId" :library-uid="libraryUid"/>
     </q-card-actions>
   </q-card-section>
 </q-card>
@@ -82,7 +86,7 @@ function showDeleteModal() {
 <style scoped>
 .thumbnail {
   cursor: pointer;
-  width: 150px;
+  width: 175px;
   height: auto;
   transition: all 0.5s;
 }

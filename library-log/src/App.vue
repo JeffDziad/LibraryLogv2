@@ -1,4 +1,5 @@
 <template>
+  <div id="backgroundFilter"></div>
   <router-view />
 </template>
 
@@ -11,6 +12,7 @@ import { where, query, collection, doc, onSnapshot } from "firebase/firestore";
 import { db } from "boot/firebase";
 import {provide} from "vue";
 import Library from "src/models/Library";
+import {Notify} from "quasar";
 
 function eid() {
   eid.count = eid.count ?? 1;
@@ -45,6 +47,31 @@ function randInRange(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+function showNotif(color, textColor, message, icon=null, multiLine=false) {
+  // const random = Math.random() * 100
+  // const twoActions = random > 70
+  // const buttonColor = color ? 'white' : void 0
+
+  Notify.create({
+    color,
+    textColor,
+    icon: icon,
+    message,
+    position: 'bottom-right',
+    // avatar,
+    multiLine,
+    // actions: twoActions
+    //   ? [
+    //     { label: 'Reply', color: buttonColor, handler: () => { /* console.log('wooow') */ } },
+    //     { label: 'Dismiss', color: 'yellow', handler: () => { /* console.log('wooow') */ } }
+    //   ]
+    //   : (random > 40
+    //       ? [{ label: 'Reply', color: buttonColor, handler: () => { /* console.log('wooow') */ } }]
+    //       : null
+    //   ),
+    timeout: Math.random() * 5000 + 3000
+  })
+}
 
 const auth = getAuth();
 const authUser = useAuthUser();
@@ -68,10 +95,11 @@ onAuthStateChanged(auth, (user) => {
     //? SHARED LIBRARIES LISTENER
 
 
-
+    userData.sharedLibraries = [];
   } else {
     authUser.user = null;
     userData.myLibraries = [];
+    userData.sharedLibraries = [];
   }
 });
 
@@ -80,5 +108,19 @@ provide('camelToReadable', camelToReadable);
 provide('removeDuplicatesFromArray', removeDuplicatesFromArray);
 provide('dupe', dupe);
 provide('randInRange', randInRange);
+provide('showNotif', showNotif);
 </script>
+
+<style scoped>
+#backgroundFilter {
+  background: transparent;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(5px);
+}
+</style>
 
